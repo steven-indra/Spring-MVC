@@ -23,7 +23,7 @@ public class HelloController {
 		return message;
   }
 	
-	@RequestMapping(value = "hello/{message}")
+	@RequestMapping(value = "/hello/{message}")
 	  @ResponseBody
 	  public String helloUri(@PathVariable String message) {
 			return message;
