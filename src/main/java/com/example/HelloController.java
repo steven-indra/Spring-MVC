@@ -1,6 +1,7 @@
 package com.example;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,6 +28,12 @@ public class HelloController {
 	@ResponseBody
 	public String helloUri(@PathVariable String message) {
 		return message;
+	}
+	
+	@RequestMapping(value = "/testJSP", method = RequestMethod.GET)
+	public String hello(ModelMap modelMap) {
+		modelMap.addAttribute("message","Hello Spring from JSP");
+		return "hello";
 	}
 
 }

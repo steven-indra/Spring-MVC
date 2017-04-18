@@ -28,17 +28,27 @@ public class EmployeeControllerTests {
 	
 	@Test
 	public void getEmployee() throws Exception {
-		String expectedResult ="[{\"name\":\"John\",\"gender\":\"Male\"},{\"name\":\"Johnny\",\"gender\":\"Male\"},{\"name\":\"Travolta\",\"gender\":\"Male\"},{\"name\":\"Mickey\",\"gender\":\"Male\"},{\"name\":\"Donald\",\"gender\":\"Male\"}]";
-	    this.mockMvc.perform(get("/employee?gender=Male"))
+		String expectedResult ="[{\"name\":\"John\",\"gender\":\"Male\", \"id\": 1},{\"name\":\"Johnny\",\"gender\":\"Male\", \"id\": 2},{\"name\":\"Travolta\",\"gender\":\"Male\", \"id\": 4},{\"name\":\"Mickey\",\"gender\":\"Male\", \"id\": 6},{\"name\":\"Donald\",\"gender\":\"Male\", \"id\": 8}]";
+	    this.mockMvc.perform(get("/employees?gender=Male"))
 	        .andExpect(status().isOk())
 	        .andExpect(content().json(expectedResult));
 	}
 	
 	@Test
 	public void getEmployeePost() throws Exception {
-	    this.mockMvc.perform(post("/employee").contentType("application/json").content("{\"name\":\"lala\",\"gender\":\"Male\"}"))
+	    this.mockMvc.perform(post("/employees").contentType("application/json").content("{\"name\":\"lala\",\"gender\":\"Male\"}"))
 	        .andExpect(status().isOk())
-	        .andExpect(content().json("{\"name\":\"lala\",\"gender\":\"Male\"}"));
+	        .andExpect(content().json("{\"name\":\"lala\",\"gender\":\"Male\", \"id\": 0}"));
+	}
+	
+	@Test
+	public void shouldReturnNotFound() throws Exception {
+		String expectedResult ="{\"name\":\"John\",\"gender\":\"Male\",\"id\":1}";
+	    this.mockMvc.perform(get("/employees/10"))
+	        .andExpect(status().isNotFound());
+	    this.mockMvc.perform(get("/employees/1"))
+	        .andExpect(status().isOk())
+	        .andExpect(content().json(expectedResult));
 	}
 
 }
